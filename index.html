@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Vexo Earning BD</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src='//libtl.com/sdk.js' data-zone='12291445' data-sdk='show_12291445'></script>
+<style>
+:root{--blue:#0a6cff;--blue2:#0050d6;--bg:#f0f5ff;--ink:#1a2238;--mute:#7a869f;--card:#fff;--ok:#16a34a;--bad:#dc2626;--gold:#e08a00}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:system-ui,-apple-system,"Noto Sans Bengali","Segoe UI",sans-serif}
+html,body{min-height:100%;background:var(--bg);color:var(--ink)}
+body{max-width:480px;margin:0 auto;padding-bottom:30px}
+.hide{display:none!important}
+button{border:0;cursor:pointer;font-weight:700}
+button:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:3px solid #ffb703;outline-offset:2px}
+
+.top{background:linear-gradient(160deg,var(--blue),var(--blue2));color:#fff;padding:22px 18px 70px;border-radius:0 0 34px 34px}
+.top h1{font-size:24px;text-align:center;letter-spacing:.3px}
+.sub{text-align:center;font-size:13px;opacity:.85;margin-top:2px}
+.wallet{background:var(--card);color:var(--ink);margin:-52px 16px 0;border-radius:20px;padding:14px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 24px rgba(10,60,160,.15)}
+.who{flex:1;min-width:0}
+.who b{display:block;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who span{font-size:12px;color:var(--mute)}
+.pill{padding:8px 12px;border-radius:14px;font-size:14px;font-weight:800;color:#fff;white-space:nowrap}
+.pill.b{background:var(--blue)}.pill.o{background:var(--gold)}
+.note{margin:14px 16px 0;background:#e3eeff;color:var(--blue2);padding:12px 14px;border-radius:14px;font-size:14px;font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
+.tile{background:var(--card);border-radius:18px;padding:16px 6px;text-align:center;font-size:14px;font-weight:700;color:var(--ink);box-shadow:0 2px 10px rgba(10,60,160,.08)}
+.tile i{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 8px;border-radius:16px;font-style:normal;font-size:26px;background:var(--bg)}
+.tile:active{transform:scale(.97)}
+
+.page{padding:14px 16px}
+.bar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{width:40px;height:40px;border-radius:50%;background:#dfe9ff;color:var(--blue);font-size:20px}
+.bar h2{font-size:19px}
+.card{background:var(--card);border-radius:20px;padding:18px;box-shadow:0 2px 10px rgba(10,60,160,.08);margin-bottom:14px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border-radius:16px;padding:12px;box-shadow:0 2px 10px rgba(10,60,160,.08)}
+.stat small{color:var(--mute);font-size:12px;display:block}
+.stat b{font-size:24px}
+.steps{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:4px 0 14px}
+.dot{width:14px;height:8px;border-radius:6px;background:#dbe6ff}
+.dot.done{background:var(--ok)}.dot.now{background:var(--blue)}
+.bulb{font-size:64px;text-align:center}
+.tip{background:var(--bg);border-radius:14px;padding:12px;font-size:14px;line-height:1.6;text-align:center;margin:12px 0}
+.big{width:100%;padding:15px;border-radius:30px;background:linear-gradient(90deg,var(--blue),var(--blue2));color:#fff;font-size:17px}
+.btn2{display:block;width:100%;padding:13px;border-radius:14px;background:#e3eeff;color:var(--blue2);font-size:15px;margin-top:10px;text-align:center;text-decoration:none}
+.msg{min-height:20px;margin-top:10px;font-size:14px;text-align:center;font-weight:600}
+.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+input,select{width:100%;padding:13px;margin-top:8px;border-radius:12px;border:2px solid #dbe6ff;font-size:16px;background:#fff;color:var(--ink)}
+label{font-size:13px;color:var(--mute);display:block;margin-top:10px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #eef2fb;font-size:14px}
+.row:last-child{border:0}
+.row small{color:var(--mute);display:block}
+.plus{color:var(--ok);font-weight:800}.minus{color:var(--bad);font-weight:800}
+.rank{width:26px;color:var(--mute);font-weight:800}
+.gate{padding:40px 22px;text-align:center}
+.gate h2{margin:12px 0 8px}
+.gate p{color:var(--mute);font-size:14px;line-height:1.6;margin-bottom:16px}
+.joinrow{display:flex;align-items:center;gap:10px;background:var(--card);padding:12px 14px;border-radius:16px;margin-bottom:10px;text-align:left;font-weight:700}
+.joinrow span{flex:1}
+.joinrow a{background:var(--blue);color:#fff;padding:8px 14px;border-radius:12px;text-decoration:none;font-size:14px}
+.tick{font-size:20px}
+.reflink{word-break:break-all;background:var(--bg);padding:12px;border-radius:12px;font-size:13px;margin:10px 0}
+.empty{text-align:center;color:var(--mute);padding:20px 0;font-size:14px}
+.adm{display:flex;gap:8px;margin-top:10px}.adm button{flex:1;padding:11px;border-radius:12px;color:#fff;font-size:15px}.adm .pay{background:var(--ok)}.adm .rej{background:var(--bad)}
+.mq{overflow:hidden;white-space:nowrap}.mq span{display:inline-block;padding-left:100%;animation:mq 16s linear infinite}@keyframes mq{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.mq{white-space:normal}.mq span{animation:none;padding-left:0}}
+.big.s3{background:linear-gradient(90deg,#08b4d6,#0891b2)}.big.s4{background:linear-gradient(90deg,#f6b45c,#f08a1c)}
+.pop{position:fixed;inset:0;background:rgba(10,20,50,.55);display:grid;place-items:center;padding:20px;z-index:50}
+.popbox{background:#fff;border-radius:22px;padding:26px 22px;text-align:center;width:100%;max-width:340px}
+.popok{width:70px;height:70px;border-radius:50%;border:5px solid #c9f1da;color:var(--ok);font-size:38px;display:grid;place-items:center;margin:0 auto 12px}
+.popbox p{font-size:20px;font-weight:700;margin-bottom:16px}
+@media (prefers-reduced-motion:no-preference){.tile{transition:transform .1s}}
+</style>
+</head>
+<body>
+
+<div id="loading" class="gate"><div class="bulb">⏳</div><p>লোড হচ্ছে…</p></div>
+
+<div id="blocked" class="gate hide">
+  <div class="bulb">📱</div>
+  <h2>টেলিগ্রাম থেকে খুলুন</h2>
+  <p>এই অ্যাপ শুধু টেলিগ্রামের ভেতরে চলে। @VexoEarnBD_bot খুলে Open বাটন চাপুন।</p>
+</div>
+
+<div id="gate" class="gate hide">
+  <div class="bulb">🔒</div>
+  <h2>জয়েন করুন</h2>
+  <p>আপডেট আর সাপোর্ট পেতে চ্যানেল ও গ্রুপে জয়েন করুন। চাইলে এখন বাদ দিয়েও ঢুকতে পারেন।</p>
+  <div class="joinrow"><span>📢 চ্যানেল</span><a href="#" data-tg="https://t.me/VexoEarningBD">Join</a><b class="tick" id="tickC">❌</b></div>
+  <div class="joinrow"><span>💬 গ্রুপ</span><a href="#" data-tg="https://t.me/VexoEarningBDGroup">Join</a><b class="tick" id="tickG">❌</b></div>
+  <button class="big" id="verifyBtn">Verify</button>
+  <button class="btn2" id="skipBtn" style="border:0">এখন না, পরে করব</button>
+  <div class="msg" id="gateMsg"></div>
+</div>
+
+<div id="home" class="hide">
+  <div class="top"><h1>Vexo Earning BD</h1><div class="sub">দেখুন, জমান, তুলুন</div></div>
+  <div class="wallet">
+    <div class="who"><b id="uName">-</b><span id="uId">-</span></div>
+    <div class="pill b" id="uBal">৳0.00</div>
+    <div class="pill o" id="uTasks">0 Task</div>
+  </div>
+  <div class="note"><div class="mq"><span>📣 নতুন আপডেট পেতে আমাদের চ্যানেলে থাকুন! • অ্যাড পুরোটা দেখলেই পয়েন্ট পাবেন</span></div></div>
+  <div class="grid">
+    <button class="tile" data-go="task1"><i>📋</i>Task 1</button>
+    <button class="tile" data-go="task2"><i>🧩</i>Task 2</button>
+    <button class="tile" data-go="task3"><i>🎁</i>Task 3</button>
+    <button class="tile" data-go="top"><i>🏆</i>Top Users</button>
+    <button class="tile" data-go="withdraw"><i>💰</i>Withdraw</button>
+    <button class="tile" data-go="history"><i>🕘</i>History</button>
+    <button class="tile" data-go="profile"><i>👤</i>Profile</button>
+    <button class="tile" data-tg="https://t.me/VexoEarningBD"><i>📢</i>Channel</button>
+    <button class="tile" data-tg="https://t.me/VexoEarningBDGroup"><i>🎧</i>Support</button>
+    <button class="tile hide" id="adminTile" data-go="admin"><i>🛠️</i>Admin</button>
+  </div>
+</div>
+
+<div id="task1" class="page hide">
+  <div class="bar"><button class="back" data-go="home">←</button><h2>Task 1</h2></div>
+  <div class="stats">
+    <div class="stat"><small>আজকের টাস্ক</small><b id="tToday">0</b></div>
+    <div class="stat"><small>মোট টাস্ক</small><b id="tTotal">0</b></div>
+  </div>
+  <div class="card">
+    <div class="steps" id="steps"></div>
+    <div class="bulb">💡</div>
+    <div class="tip">অ্যাড পুরোটা দেখুন। শেষ হলে নিজে থেকেই পয়েন্ট যোগ হবে। অ্যাডে ক্লিক করার দরকার নেই।</div>
+    <div class="tip" id="stepInfo"></div>
+    <button class="big" id="watchBtn">Watch Ads</button>
+    <div class="msg" id="adMsg"></div>
+  </div>
+</div>
+
+<div id="task2" class="page hide">
+  <div class="bar"><button class="back" data-go="home">←</button><h2>Task 2</h2></div>
+  <div class="card empty"><div class="bulb">🧩</div>নতুন টাস্ক শীঘ্রই আসছে। চ্যানেলে নজর রাখুন।</div>
+</div>
+
+<div id="task3" class="page hide">
+  <div class="bar"><button class="back" data-go="home">←</button><h2>Task 3: রেফার</h2></div>
+  <div class="card">
+    <div class="bulb">🎁</div>
+    <div class="tip">বন্ধু আপনার লিংকে ঢুকে ১০টা অ্যাড দেখলে আপনি ৳2 বোনাস পাবেন।</div>
+    <div class="reflink" id="refLink"></div>
+    <button class="big" id="copyRef">Copy link</button>
+    <a class="btn2" href="#" id="shareRef">Telegram-এ শেয়ার করুন</a>
+    <div class="msg" id="refMsg"></div>
+    <div class="stat" style="margin-top:12px"><small>মোট রেফার</small><b id="refCount">0</b></div>
+  </div>
+</div>
+
+<div id="top" class="page hide">
+  <div class="bar"><button class="back" data-go="home">←</button><h2>Top Users</h2></div>
+  <div class="card" id="topList"></div>
+</div>
+
+<div id="withdraw" class="page hide">
+  <div class="bar"><button class="back" data-go="home">←</button><h2>Withdraw</h2></div>
+  <div class="card">
+    <div class="stat"><small>আপনার ব্যালেন্স</small><b id="wBal">৳0.00</b></div>
+    <label for="wAmt">পরিমাণ (ন্যূনতম ৳50)</label>
+    <input type="number" id="wAmt" inputmode="decimal" placeholder="৳">
+    <label for="wMethod">মেথড</label>
+    <select id="wMethod"><option value="bkash">bKash</option><option value="nagad">Nagad</option><option value="rocket">Rocket</option></select>
+    <label for="wAcc">নম্বর</label>
+    <input type="tel" id="wAcc" maxlength="11" placeholder="01XXXXXXXXX">
+    <button class="big" id="wBtn" style="margin-top:14px">Submit</button>
+    <div class="msg" id="wMsg"></div>
+  </div>
+</div>
+
+<div id="history" class="page hide">
+  <div class="bar"><button class="back" data-go="home">←</button><h2>History</h2></div>
+  <div class="card"><b>Withdraw রিকোয়েস্ট</b><div id="wdList"></div></div>
+  <div class="card"><b>আয়ের হিসাব</b><div id="hList"></div></div>
+</div>
+
+<div id="admin" class="page hide">
+  <div class="bar"><button class="back" data-go="home">←</button><h2>Admin Panel</h2></div>
+  <div class="card" id="admStats"></div>
+  <b style="display:block;margin:4px 2px 10px">পেন্ডিং Withdraw</b>
+  <div id="admList"></div>
+</div>
+
+<div id="profile" class="page hide">
+  <div class="bar"><button class="back" data-go="home">←</button><h2>Profile</h2></div>
+  <div class="card" id="profBox"></div>
+</div>
+
+<div id="pop" class="pop hide" role="dialog" aria-modal="true"><div class="popbox"><div class="popok">✓</div><p id="popTxt">Reward credited!</p><button class="big" id="popBtn" style="width:auto;padding:12px 40px">OK</button></div></div>
+
+<script>
+const API = "https://slwgqjjdektcmxblewoi.supabase.co/functions/v1/api";
+const BOT = "VexoEarnBD_bot";
+const TIMED = {19: 15};
+const NORMAL = "সাধারণ অ্যাড। পুরোটা দেখুন।";
+const TIMED_TEXT = "১৫ সেকেন্ডের অ্যাড। অ্যাড থেকে বের হলেও নিচে সময় গোনা হবে, শেষ হলে পয়েন্ট যোগ হবে।";
+const STEP_TEXT = Array.from({length: 20}, (_, i) => "ধাপ " + (i + 1) + ": " + (TIMED[i] ? TIMED_TEXT : NORMAL));
+const ERR = {
+  too_short: "অ্যাডটা পুরোটা দেখেননি, তাই পয়েন্ট যোগ হয়নি। আবার চেষ্টা করুন।",
+  no_start: "আবার Watch Ads চাপুন।",
+  daily_limit: "আজকের সীমা শেষ। কাল আবার আসুন।",
+  busy: "সার্ভার ব্যস্ত, আবার চাপুন।",
+  insufficient: "ব্যালেন্স যথেষ্ট নেই।",
+  min_withdraw: "ন্যূনতম ৳50 লাগবে।",
+  bad_number: "সঠিক ১১ ডিজিটের নম্বর দিন।",
+  bad_method: "মেথড বেছে নিন।",
+  pending_exists: "আগের রিকোয়েস্ট এখনো পেন্ডিং আছে।",
+  invalid_auth: "টেলিগ্রাম থেকে আবার খুলুন।",
+  forbidden: "অনুমতি নেই।",
+  not_pending: "এই রিকোয়েস্ট আগেই নিষ্পত্তি হয়েছে।"
+};
+const tg = window.Telegram && Telegram.WebApp;
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let user = null, waiting = false, timer = null;
+
+function show(id){
+  ["loading","blocked","gate","home","task1","task2","task3","top","withdraw","history","profile","admin"].forEach(x => $(x).classList.add("hide"));
+  $(id).classList.remove("hide");
+  window.scrollTo(0, 0);
+  if (id === "task1") renderTask();
+  if (id === "task3") renderRef();
+  if (id === "withdraw") $("wBal").textContent = "৳" + user.balance.toFixed(2);
+  if (id === "top") loadTop();
+  if (id === "history") loadHistory();
+  if (id === "profile") renderProfile();
+  if (id === "admin") loadAdmin();
+}
+function popup(t){ $("popTxt").textContent = t; $("pop").classList.remove("hide"); }
+$("popBtn").onclick = () => $("pop").classList.add("hide");
+function openTg(url){ tg && tg.openTelegramLink ? tg.openTelegramLink(url) : window.open(url, "_blank"); }
+
+async function api(action, extra){
+  const r = await fetch(API, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(Object.assign({action, initData: tg.initData}, extra || {}))
+  });
+  const j = await r.json().catch(() => ({error: "server_error"}));
+  return j;
+}
+
+function setUser(u){
+  user = u;
+  $("uName").textContent = u.first_name || "User";
+  $("uId").textContent = "ID: " + u.telegram_id;
+  $("uBal").textContent = "৳" + u.balance.toFixed(2);
+  $("uTasks").textContent = u.total_ads + " Task";
+}
+
+async function start(){
+  if (!tg || !tg.initData){ show("blocked"); return; }
+  tg.ready(); tg.expand();
+  try { tg.setHeaderColor("#0a6cff"); } catch(e){}
+  const j = await api("init");
+  if (j.error){ show("blocked"); return; }
+  $("tickC").textContent = j.channel ? "✅" : "❌";
+  $("tickG").textContent = j.group ? "✅" : "❌";
+  if (j.user){ setUser(j.user); if (j.is_admin) $("adminTile").classList.remove("hide"); show(j.joined ? "home" : "gate"); } else show("blocked");
+}
+
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]");
+  if (g){ show(g.dataset.go); return; }
+  const t = e.target.closest("[data-tg]");
+  if (t){ e.preventDefault(); openTg(t.dataset.tg); }
+});
+
+$("skipBtn").onclick = () => show("home");
+
+$("verifyBtn").onclick = async () => {
+  $("gateMsg").className = "msg"; $("gateMsg").textContent = "চেক করা হচ্ছে…";
+  const j = await api("check");
+  $("tickC").textContent = j.channel ? "✅" : "❌";
+  $("tickG").textContent = j.group ? "✅" : "❌";
+  if (j.joined && j.user){ setUser(j.user); if (j.is_admin) $("adminTile").classList.remove("hide"); show("home"); }
+  else { $("gateMsg").className = "msg bad"; $("gateMsg").textContent = "দুটোতেই জয়েন করে আবার Verify চাপুন।"; }
+};
+
+// ---- Task 1 ----
+function stepNow(){ return user.today_ads % 20; }
+function renderTask(){
+  $("tToday").textContent = user.today_ads;
+  $("tTotal").textContent = user.total_ads;
+  const s = stepNow();
+  $("steps").innerHTML = Array.from({length: 20}, (_, i) => i).map(i => `<span class="dot ${i < s ? "done" : i === s ? "now" : ""}"></span>`).join("");
+  $("stepInfo").textContent = STEP_TEXT[s];
+  $("watchBtn").className = "big " + (TIMED[s] ? "s3" : "");
+  if (!waiting) $("watchBtn").textContent = "Watch Ads";
+}
+function cooldown(sec, done){
+  waiting = true; $("watchBtn").disabled = true;
+  let left = sec;
+  clearInterval(timer);
+  const tick = () => {
+    if (left <= 0){ clearInterval(timer); waiting = false; $("watchBtn").disabled = false; $("watchBtn").textContent = "Watch Ads"; if (done) done(); return; }
+    $("watchBtn").textContent = "অপেক্ষা করুন " + left + "s"; left--;
+  };
+  tick(); timer = setInterval(tick, 1000);
+}
+function waitFor(endAt){
+  return new Promise(res => {
+    const tick = () => {
+      const left = Math.ceil((endAt - Date.now()) / 1000);
+      if (left <= 0){ clearInterval(t); res(); return; }
+      $("adMsg").className = "msg"; $("adMsg").textContent = "⏳ আর " + left + " সেকেন্ড অপেক্ষা করুন, তারপর পয়েন্ট যোগ হবে";
+      $("watchBtn").textContent = "অপেক্ষা " + left + "s";
+    };
+    const t = setInterval(tick, 300); tick();
+  });
+}
+$("watchBtn").onclick = async () => {
+  const m = $("adMsg"); m.className = "msg"; m.textContent = "";
+  if (typeof window.show_12291445 !== "function"){ m.className = "msg bad"; m.textContent = "অ্যাড লোড হয়নি, একটু পরে চেষ্টা করুন।"; return; }
+  const need = TIMED[stepNow()] || 0;
+  $("watchBtn").disabled = true;
+  const s = await api("start");
+  if (!s.ok){
+    $("watchBtn").disabled = false; renderTask();
+    m.className = "msg bad"; m.textContent = ERR[s.error] || "সমস্যা হয়েছে, আবার চেষ্টা করুন।";
+    return;
+  }
+  const endAt = Date.now() + need * 1000;
+  try { await window.show_12291445({ ymid: String(user.telegram_id) }); } catch(e){}
+  if (need) await waitFor(endAt);
+  const j = await api("reward");
+  $("watchBtn").disabled = false;
+  m.textContent = "";
+  if (j.ok){
+    setUser(j.user); renderTask();
+    popup("Reward credited! +৳" + j.reward.toFixed(2));
+  } else {
+    renderTask();
+    m.className = "msg bad"; m.textContent = ERR[j.error] || "সমস্যা হয়েছে, আবার চেষ্টা করুন।";
+  }
+};
+
+// ---- Refer ----
+function refUrl(){ return "https://t.me/" + BOT + "?startapp=ref_" + user.telegram_id; }
+function renderRef(){ $("refLink").textContent = refUrl(); $("refCount").textContent = user.referral_count; }
+$("copyRef").onclick = async () => {
+  try { await navigator.clipboard.writeText(refUrl()); $("refMsg").className = "msg ok"; $("refMsg").textContent = "কপি হয়েছে ✅"; }
+  catch(e){ $("refMsg").className = "msg bad"; $("refMsg").textContent = "কপি হয়নি, লিংকটা চেপে ধরে কপি করুন।"; }
+};
+$("shareRef").onclick = e => {
+  e.preventDefault();
+  openTg("https://t.me/share/url?url=" + encodeURIComponent(refUrl()) + "&text=" + encodeURIComponent("Vexo Earning BD-তে জয়েন করুন!"));
+};
+
+// ---- Top ----
+async function loadTop(){
+  $("topList").innerHTML = '<div class="empty">লোড হচ্ছে…</div>';
+  const j = await api("top");
+  const l = j.top || [];
+  $("topList").innerHTML = l.length ? l.map((u, i) => `<div class="row"><span class="rank">${i + 1}</span><span style="flex:1">${esc(u.first_name || "User")}</span><b>${u.total_ads} Task</b></div>`).join("") : '<div class="empty">এখনো কেউ নেই।</div>';
+}
+
+// ---- Withdraw ----
+$("wBtn").onclick = async () => {
+  const m = $("wMsg"); m.className = "msg"; m.textContent = "";
+  $("wBtn").disabled = true;
+  const j = await api("withdraw", { amount: $("wAmt").value, method: $("wMethod").value, account: $("wAcc").value });
+  $("wBtn").disabled = false;
+  if (j.ok){
+    setUser(j.user); $("wBal").textContent = "৳" + user.balance.toFixed(2);
+    $("wAmt").value = ""; $("wAcc").value = "";
+    m.className = "msg ok"; m.textContent = "রিকোয়েস্ট জমা হয়েছে। যাচাই শেষে পেমেন্ট দেওয়া হবে।";
+  } else { m.className = "msg bad"; m.textContent = ERR[j.error] || "সমস্যা হয়েছে, আবার চেষ্টা করুন।"; }
+};
+
+// ---- History ----
+const STATUS = { pending: "পেন্ডিং", paid: "পেইড", rejected: "বাতিল" };
+async function loadHistory(){
+  $("wdList").innerHTML = $("hList").innerHTML = '<div class="empty">লোড হচ্ছে…</div>';
+  const j = await api("history");
+  const d = s => new Date(s).toLocaleString("bn-BD", { dateStyle: "medium", timeStyle: "short" });
+  const w = j.withdrawals || [], h = j.history || [];
+  $("wdList").innerHTML = w.length ? w.map(x => `<div class="row"><div>${esc(x.method)} • ${esc(x.account)}<small>${d(x.created_at)}</small></div><div><b>৳${Number(x.amount).toFixed(2)}</b><small>${STATUS[x.status] || esc(x.status)}</small></div></div>`).join("") : '<div class="empty">কোনো রিকোয়েস্ট নেই।</div>';
+  $("hList").innerHTML = h.length ? h.map(x => `<div class="row"><div>${esc(x.note || x.type)}<small>${d(x.created_at)}</small></div><b class="${x.amount < 0 ? "minus" : "plus"}">${x.amount < 0 ? "-" : "+"}৳${Math.abs(Number(x.amount)).toFixed(2)}</b></div>`).join("") : '<div class="empty">এখনো কোনো আয় নেই। Task 1 থেকে শুরু করুন।</div>';
+}
+
+// ---- Profile ----
+function renderProfile(){
+  $("profBox").innerHTML =
+    `<div class="row"><span>নাম</span><b>${esc(user.first_name)}</b></div>` +
+    `<div class="row"><span>ইউজারনেম</span><b>${user.username ? "@" + esc(user.username) : "-"}</b></div>` +
+    `<div class="row"><span>ID</span><b>${user.telegram_id}</b></div>` +
+    `<div class="row"><span>ব্যালেন্স</span><b>৳${user.balance.toFixed(2)}</b></div>` +
+    `<div class="row"><span>মোট টাস্ক</span><b>${user.total_ads}</b></div>` +
+    `<div class="row"><span>মোট রেফার</span><b>${user.referral_count}</b></div>` +
+    `<div class="row"><span>যোগ দিয়েছেন</span><b>${new Date(user.created_at).toLocaleDateString("bn-BD")}</b></div>`;
+}
+
+// ---- Admin ----
+async function loadAdmin(){
+  $("admStats").innerHTML = '<div class="empty">লোড হচ্ছে…</div>';
+  $("admList").innerHTML = "";
+  const [s, w] = await Promise.all([api("admin_stats"), api("admin_withdrawals")]);
+  if (s.error || w.error){ $("admStats").innerHTML = '<div class="empty">অনুমতি নেই বা সমস্যা হয়েছে।</div>'; return; }
+  const f = n => "৳" + Number(n).toFixed(2);
+  $("admStats").innerHTML =
+    `<div class="row"><span>মোট ইউজার</span><b>${s.users}</b></div>` +
+    `<div class="row"><span>ইউজারদের মোট ব্যালেন্স</span><b>${f(s.balance_total)}</b></div>` +
+    `<div class="row"><span>পেন্ডিং রিকোয়েস্ট</span><b>${s.pending_count} টি (${f(s.pending_amount)})</b></div>` +
+    `<div class="row"><span>মোট পেইড</span><b>${s.paid_count} টি (${f(s.paid_amount)})</b></div>`;
+  const l = w.list || [];
+  $("admList").innerHTML = l.length ? l.map(x => `<div class="card">
+    <div class="row"><span><b>${esc(x.first_name || "User")}</b>${x.username ? " @" + esc(x.username) : ""}<small>ID: ${x.telegram_id}</small></span><b>${f(x.amount)}</b></div>
+    <div class="row"><span>${esc(x.method)}</span><b>${esc(x.account)}</b></div>
+    <div class="adm"><button class="pay" data-adm="paid" data-id="${x.id}">✅ Paid</button><button class="rej" data-adm="rejected" data-id="${x.id}">❌ Reject</button></div>
+  </div>`).join("") : '<div class="empty">কোনো পেন্ডিং রিকোয়েস্ট নেই।</div>';
+}
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-adm]");
+  if (!b) return;
+  const rej = b.dataset.adm === "rejected";
+  if (!confirm(rej ? "রিকোয়েস্ট বাতিল করবেন? টাকা ইউজারের ব্যালেন্সে ফেরত যাবে।" : "পেমেন্ট পাঠিয়ে দিয়েছেন? Paid চিহ্নিত করা হবে।")) return;
+  b.disabled = true;
+  const j = await api("admin_set", { id: Number(b.dataset.id), status: b.dataset.adm });
+  if (j.ok) loadAdmin(); else { b.disabled = false; alert(ERR[j.error] || "সমস্যা হয়েছে।"); }
+});
+
+start();
+</script>
+</body>
+</html>
