@@ -327,7 +327,13 @@ $("watchBtn").onclick = async () => {
     return;
   }
   const endAt = Date.now() + need * 1000;
-  try { await window.show_12291445({ ymid: String(user.telegram_id) }); } catch(e){}
+  const t0 = Date.now(); let noAd = false;
+  try { await window.show_12291445({ ymid: String(user.telegram_id) }); } catch(e){ noAd = (Date.now() - t0) < 1500; }
+  if (noAd){
+    $("watchBtn").disabled = false; renderTask();
+    m.className = "msg bad"; m.textContent = "এখন অ্যাড পাওয়া যায়নি, একটু পরে আবার চেষ্টা করুন।";
+    return;
+  }
   if (need) await waitFor(endAt);
   const j = await api("reward");
   $("watchBtn").disabled = false;
